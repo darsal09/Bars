@@ -36,11 +36,15 @@ var places = {
 			new Place( 'Sunrise Cafe', 'images/food1.jpg' ),
 			new Place( 'Forrest Point', 'images/food2.jpg' ),
 			new Place( 'Sycamore', 'images/food3.jpg' ),
-			new Place( 'Giorgio\s Restaurant', 'images/food4.jpg' ),
+			new Place( 'Giorgio\'s Restaurant', 'images/food4.jpg' ),
 			new Place('Montana Trail', 'images/food5.jpg' )
 		];
 	},
 	show:function(){
+        if( this.mPlaces.length < 2 ){
+            this.getPlaces();
+        }
+
 		if( this.mPlaces.length < 1 ){
 			this.done();
 			return;
@@ -63,7 +67,7 @@ function Place( name,  image){
 	this.get = function(){
 		return '<p>'+this.name+'<br/><img src="'+this.image+'"></p>';
 	}
-}
+};
 
 $( function(){
 	places.init();
