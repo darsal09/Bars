@@ -31,6 +31,14 @@ var places = {
 		this.show();
 	//	this.initialEvents();
 	},
+    addPlaces:function(){
+        var places = this.getPlaces();
+
+        for( var place in places ){
+            this.mPlaces[ this.mPlaces.length ] = place;
+        }
+
+    },
 	getPlaces:function(){
 		return [
 			new Place( 'Sunrise Cafe', 'images/food1.jpg' ),
@@ -42,7 +50,7 @@ var places = {
 	},
 	show:function(){
         if( this.mPlaces.length < 2 ){
-            this.getPlaces();
+            this.addPlaces();
         }
 
 		if( this.mPlaces.length < 1 ){
