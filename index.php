@@ -6,8 +6,11 @@
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script>
+
+
 var places = {
 	init:function(){
+        this.mPlaces = new Places();
 		this.initialEvents();
 		this.loadPlaces();
 	},
@@ -26,18 +29,15 @@ var places = {
 
 	},
 	loadPlaces:function(){
-		this.mPlaces = this.getPlaces();
-		
+		this.addPlaces();
 		this.show();
-	//	this.initialEvents();
 	},
     addPlaces:function(){
         var places = this.getPlaces();
 
-        for( var place in places ){
-            this.mPlaces[ this.mPlaces.length ] = place;
+        for( var index in places ){
+            this.mPlaces.add( places[ index ] );
         }
-
     },
 	getPlaces:function(){
 		return [
@@ -49,33 +49,54 @@ var places = {
 		];
 	},
 	show:function(){
-        if( this.mPlaces.length < 2 ){
+        if( this.mPlaces.getLength() <= 2 ){
             this.addPlaces();
         }
 
-		if( this.mPlaces.length < 1 ){
+		if( this.mPlaces.getLength() < 1 ){
 			this.done();
 			return;
 		}
 		
-		$( '#places' ).html( this.mPlaces[ 0 ].get() );
+		$( '#places' ).html( this.mPlaces.get() );
 	},
 	pop:function(){
-		this.mPlaces.splice( 0, 1 );
+		this.mPlaces.remove();
 	},
 	done:function(){
-		$( '#places').html( '<h1>Thank you for participating!' );
+		$( '#places').html( '<h1>Thank you for participating!</h1>' );
 	}
 	
 };
+
+function Places( ){
+    this.mPlaces = [];
+    this.mLength = 0;
+
+    this.add = function( Place ){
+        this.mPlaces[ this.mLength ] = Place;
+        this.mLength++;
+    };
+
+    this.remove = function( ){
+        this.mPlaces.splice( 0, 1 );
+        this.mLength--;
+    };
+    this.get = function(){
+        return this.mPlaces[ 0].get();
+    };
+    this.getLength = function(){
+        return this.mLength;
+    };
+}
 
 function Place( name,  image){
 	this.name = name;
 	this.image = image;
 	this.get = function(){
 		return '<p>'+this.name+'<br/><img src="'+this.image+'"></p>';
-	}
-};
+	};
+}
 
 $( function(){
 	places.init();
