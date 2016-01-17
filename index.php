@@ -6,8 +6,62 @@
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script>
+var display = {
+    init:function(){
+        this.mPage = $( '#places' );
+        if( this.mPage.length == 0 ){
+            return;
+        }
+
+        this.load();
+    }
+};
+
+var areas = {
+    init:function(){
+      this.mPage = $( '#places' );
+      this.mAreas = new Areas();
+      this.events();
+      this.loadAreas();
+    },
+    events:function(){
+        this.mPage.on( 'click', {parent:this}, this.ui.onAreaClicked);
+    },
+    ui:{
+        onAreaClicked:function( e ){
+            e.preventDefault();
+
+            var id = $( this).data( 'id' );
+
+            e.data.parent.loadPlaces();
+        }
+    },
+    loadAreas:function(){
+        var areas = this.getAreas();
+
+        for( var i in areas ){
+            this.mAreas.add( areas[ i ]);
+        }
+        this.show();
+    },
+    show:function(){
+        this.mPage.html( this.mAreas.get() );
+    },
+    getAreas:function(){
+        return [
+            new Area( 1, 'Bushwick', []),
+            new Area( 2, 'Flatbush', [] ),
+            new Area( 3, 'Park Slope', []),
+            new Area( 4, 'Williamsburg', [] )
+        ];
+    },
+    loadPlaces:function( id ){
+        places.init( id );
+    }
+};
+
 var places = {
-	init:function(){
+	init:function( id ){
         this.mPlaces = new Places();
 		this.initialEvents();
 		this.loadPlaces();
@@ -22,6 +76,7 @@ var places = {
     },
 	initialEvents:function(){
 		$("#places").on("swipeleft", 'img',{parent:this}, function( e ){
+
 			e.data.parent.pop();
 			$( this ).hide();
 			e.data.parent.show();
@@ -75,6 +130,35 @@ var places = {
 	
 };
 
+function Areas(){
+    this.mAreas = [];
+    this.mLength = 0;
+
+    this.add=function( Area ){
+        this.mAreas[ this.mLength ] = Area;
+        this.mLength++;
+    };
+    this.get = function(){
+        var values = '';
+
+        for( var i in this.mAreas ) {
+            values += this.mAreas[i].get();
+        }
+
+        return values;
+    };
+}
+
+function Area( id, title, options ){
+    this.mID = id;
+    this.mTitle = title;
+    this.mOptions = options;
+
+    this.get = function(){
+        return '<p><a href="#" data-id="'+this.mID+'">'+this.mTitle+'</a></p>';
+    }
+}
+
 function Places( ){
     this.mPlaces = [];
     this.mLength = 0;
@@ -96,7 +180,7 @@ function Places( ){
     };
 }
 
-function Place( name,  image){
+function Place( name,  image ){
 	this.name = name;
 	this.image = image;
 	this.get = function(){
@@ -105,7 +189,7 @@ function Place( name,  image){
 }
 
 $( function(){
-	places.init();
+    areas.init();
 });
 
 </script>
@@ -132,7 +216,6 @@ IMG{
   <div data-role="footer"  data-theme="a" data-form="ui-page-theme-a" class="ui-content ui-page-theme-a">
     <h1>&copy; 2016 My Places</h1>
   </div>
-</div> 
-
+</div>
 </body>
 </html>
