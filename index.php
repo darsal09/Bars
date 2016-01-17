@@ -21,13 +21,13 @@ var places = {
 
     },
 	initialEvents:function(){
-		$("#places").on("swipeleft", 'p',{parent:this}, function( e ){
+		$("#places").on("swipeleft", 'img',{parent:this}, function( e ){
 			e.data.parent.pop();
 			$( this ).hide();
 			e.data.parent.show();
 		});                       
 		
-		$("#places").on("swiperight", 'p', {parent:this}, function( e ){
+		$("#places").on("swiperight", 'img', {parent:this}, function( e ){
 			e.data.parent.pop();
 			$(this).hide();
 			e.data.parent.show();
