@@ -129,6 +129,7 @@ IMG{
     </div>
     <div class="ui-body ui-body-a" data-form="ui-body-a" data-theme="a"  id="places" role="main">
     </div>
+    <!--
     <ul data-inset="true" data-role="listview" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
         <li data-form="ui-bar-a" data-swatch="a" data-theme="a" data-role="list-divider" role="heading" class="ui-li-divider ui-bar-a ui-first-child">List Header</li>
         <li data-theme="a" data-swatch="a" data-form="ui-body-a" class="ui-li-static ui-body-a">Read-only list item</li>
@@ -172,7 +173,7 @@ IMG{
 
     <button data-form="ui-btn-up-a" data-theme="a" data-icon="star" class=" ui-btn ui-btn-a ui-icon-star ui-btn-icon-left ui-shadow ui-corner-all">Button</button>
 </div>
-
+-->
   <div data-role="footer"  data-theme="a" data-form="ui-page-theme-a" class="ui-content ui-page-theme-a">
     <h1>&copy; 2016 My Places</h1>
   </div>
