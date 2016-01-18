@@ -25,15 +25,17 @@ var areas = {
       this.loadAreas();
     },
     events:function(){
-        this.mPage.on( 'click', {parent:this}, this.ui.onAreaClicked);
+        this.mPage.on( 'click', 'A.areas', {parent:this}, this.ui.onAreaClicked);
     },
     ui:{
         onAreaClicked:function( e ){
             e.preventDefault();
-
+            if( $( this).data( 'type' ) !== 'Neighborhood'){
+                return;
+            }
             var id = $( this).data( 'id' );
 
-            e.data.parent.loadPlaces();
+            e.data.parent.loadTypes( id );
         }
     },
     loadAreas:function(){
@@ -45,7 +47,7 @@ var areas = {
         this.show();
     },
     show:function(){
-        this.mPage.html( this.mAreas.get() );
+        this.mPage.html( '<h2>Select A Neighborhood</h2>' + this.mAreas.get() );
     },
     getAreas:function(){
         return [
@@ -55,8 +57,8 @@ var areas = {
             new Area( 4, 'Williamsburg', [] )
         ];
     },
-    loadPlaces:function( id ){
-        places.init( id );
+    loadTypes:function( id ){
+        types.init( id );
     }
 };
 
@@ -130,6 +132,86 @@ var places = {
 	
 };
 
+var types = {
+    init:function( id ){
+        this.mNeighborhoodID  = parseInt( id );
+        console.log( 'in types' );
+        if( isNaN( this.mNeighborhoodID  ) || this.mNeighborhoodID < 1 ){
+            areas.init();
+            return 0;
+        }
+
+        this.mPage = $( '#places' );
+
+        if( this.mPage.length == 0 ){
+            return 0;
+        }
+
+        this.mTypes = new Types();
+        this.loadTypes();
+        this.events();
+    },
+    events:function(){
+        this.mPage.on( 'click', 'A.types', {parent:this}, this.ui.onNeighborhoodClicked);
+    },
+    ui:{
+        onNeighborhoodClicked:function( e ){
+            e.preventDefault();
+
+            var id = parseInt( $( this).data( 'id' ) );
+
+            places.init( id );
+        }
+    },
+    loadTypes:function(){
+        var types = this.getTypes();
+
+        for( var i in types ){
+            this.mTypes.add( types[ i ] );
+        }
+        this.show();
+    },
+    getTypes:function(){
+      return [
+          new Type( 1, 'Restaurants'),
+          new Type( 2, 'Bars' ),
+          new Type( 3, 'Stores' )
+      ];
+    },
+    show:function(){
+        this.mPage.html( '<h3>Select Type:</h3>'+this.mTypes.get() );
+    }
+};
+
+function Types(){
+    this.mTypes = [];
+    this.mLength = 0;
+
+    this.add = function( Type ){
+        this.mTypes[ this.mLength ] = Type;
+        this.mLength++;
+    };
+
+    this.get = function(){
+        var values = '';
+
+        for( var i in this.mTypes ){
+            values += this.mTypes[ i].get();
+        }
+
+        return values;
+    }
+}
+
+function Type(id, name ){
+    this.mID = id;
+    this.mName = name;
+
+    this.get = function(){
+        return '<p><a href="#" class="types" data-id="'+this.mID+'" data-type="Type">'+this.mName+'</a></p>';
+    }
+}
+
 function Areas(){
     this.mAreas = [];
     this.mLength = 0;
@@ -155,7 +237,7 @@ function Area( id, title, options ){
     this.mOptions = options;
 
     this.get = function(){
-        return '<p><a href="#" data-id="'+this.mID+'">'+this.mTitle+'</a></p>';
+        return '<p><a href="#" class="areas" data-id="'+this.mID+'" data-type="Neighborhood">'+this.mTitle+'</a></p>';
     }
 }
 
