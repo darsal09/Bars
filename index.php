@@ -17,6 +17,36 @@ var display = {
     }
 };
 
+
+var menuController={
+    init:function(){
+        this.mPage = $( '#menu' );
+        this.events();
+    },
+    events:function(){
+        this.mPage.on( 'click', 'A', {parent:this}, this.ui.onMenuClicked );
+    },
+    ui:{
+        onMenuClicked:function( e ){
+            e.preventDefault();
+
+            switch( $( this).data( 'type' ) ){
+                case 'cities':
+                    break;
+                case 'neighborhoods':
+                    areas.init();
+                    break;
+                case 'boroughs':
+                    break;
+                default:
+                    console.log( 'the option, '+type+' is not on the list' );
+            }
+
+        }
+    }
+};
+
+
 var areas = {
     init:function(){
       this.mPage = $( '#places' );
@@ -47,7 +77,7 @@ var areas = {
         this.show();
     },
     show:function(){
-        this.mPage.html( '<h2>Select A Neighborhood</h2>' + this.mAreas.get() );
+        this.mPage.html( '<h1>Neighborhoods</h1><ul data-role="listview">'+ this.mAreas.get()+ '</ul>' );
     },
     getAreas:function(){
         return [
@@ -135,7 +165,6 @@ var places = {
 var types = {
     init:function( id ){
         this.mNeighborhoodID  = parseInt( id );
-        console.log( 'in types' );
         if( isNaN( this.mNeighborhoodID  ) || this.mNeighborhoodID < 1 ){
             areas.init();
             return 0;
@@ -208,7 +237,7 @@ function Type(id, name ){
     this.mName = name;
 
     this.get = function(){
-        return '<p><a href="#" class="types" data-id="'+this.mID+'" data-type="Type">'+this.mName+'</a></p>';
+        return '<p><a href="#" class="types" data-id="'+this.mID+'" data-type="Type" data-transition="slide">'+this.mName+'</a></p>';
     }
 }
 
@@ -216,7 +245,7 @@ function Areas(){
     this.mAreas = [];
     this.mLength = 0;
 
-    this.add=function( Area ){
+    this.add = function( Area ){
         this.mAreas[ this.mLength ] = Area;
         this.mLength++;
     };
@@ -237,7 +266,7 @@ function Area( id, title, options ){
     this.mOptions = options;
 
     this.get = function(){
-        return '<p><a href="#" class="areas" data-id="'+this.mID+'" data-type="Neighborhood">'+this.mTitle+'</a></p>';
+        return '<li><a href="#" class="areas" data-id="'+this.mID+'" data-type="Neighborhood">'+this.mTitle+'</a></li>';
     }
 }
 
@@ -272,6 +301,7 @@ function Place( name,  image ){
 
 $( function(){
     areas.init();
+    menuController.init();
 });
 
 </script>
@@ -282,18 +312,23 @@ $( function(){
 IMG{
     width:100%;
 }
-
-
 </style>
 </head>
 <body>
-
-<div role="page" data-theme="a" data-form="ui-page-theme-a" class="ui-content ui-page-theme-a">
+<div role="page" data-theme="a" data-form="ui-page-theme-a" class="ui-page-theme-a" id="pageone">
     <div data-role="header">
         <h1>My Places</h1>
-        <a data-form="ui-icon" title=" Navigation " class="ui-btn-right ui-btn-corner-all ui-btn ui-icon-grid ui-btn-icon-notext ui-shadow" data-role="button" role="button"> Navigation </a>
+        <a data-form="ui-icon" title=" Navigation " class="ui-btn-right ui-btn-corner-all ui-btn ui-icon-grid ui-btn-icon-notext ui-shadow" data-role="button" role="button" href="#menu"> Navigation </a>
     </div>
-    <div class="ui-body ui-body-a" data-form="ui-body-a" data-theme="a"  id="places" role="main">
+    <div data-role="panel" id="menu">
+        <ul data-role="listview">
+            <li><a href="#" data-rel="close" data-type="cities">Cities</a></li>
+            <li><a href="#" data-rel="close" data-type="neighborhoods">Neighborhoods</a></li>
+            <li><a href="#" data-rel="close" data-type="boroughs">Boroughs</a></li>
+        </ul>
+    </div>
+    <div class="ui-body ui-body-a ui-content" data-form="ui-body-a" data-theme="a"  id="places" data-role="main">
+
     </div>
   <div data-role="footer"  data-theme="a" data-form="ui-page-theme-a" class="ui-content ui-page-theme-a">
     <h1>&copy; 2016 My Places</h1>
