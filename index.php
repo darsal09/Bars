@@ -77,7 +77,7 @@ var areas = {
         this.show();
     },
     show:function(){
-        this.mPage.html( '<h1>Neighborhoods</h1><ul data-role="listview">'+ this.mAreas.get()+ '</ul>' );
+        this.mPage.html( '<h1>Neighborhoods</h1><ul class="ui-listview" data-role="listview">'+ this.mAreas.get()+ '</ul>' );
     },
     getAreas:function(){
         return [
@@ -237,7 +237,7 @@ function Type(id, name ){
     this.mName = name;
 
     this.get = function(){
-        return '<p><a href="#" class="types" data-id="'+this.mID+'" data-type="Type" data-transition="slide">'+this.mName+'</a></p>';
+        return '<li><a href="#" class="types ui-btn ui-btn-icon-right ui-icon-carat-r" data-id="'+this.mID+'"  data-rel="close" data-type="Type" data-transition="slide">'+this.mName+'</a></li>';
     }
 }
 
@@ -315,7 +315,7 @@ IMG{
 </style>
 </head>
 <body>
-<div role="page" data-theme="a" data-form="ui-page-theme-a" class="ui-page-theme-a" id="pageone">
+<div data-role="page" id="pageone">
     <div data-role="header">
         <h1>My Places</h1>
         <a data-form="ui-icon" title=" Navigation " class="ui-btn-right ui-btn-corner-all ui-btn ui-icon-grid ui-btn-icon-notext ui-shadow" data-role="button" role="button" href="#menu"> Navigation </a>
@@ -327,8 +327,10 @@ IMG{
             <li><a href="#" data-rel="close" data-type="boroughs">Boroughs</a></li>
         </ul>
     </div>
-    <div class="ui-body ui-body-a ui-content" data-form="ui-body-a" data-theme="a"  id="places" data-role="main">
+    <div data-role="main" class="ui-content">
+        <ul data-role="listview" id="places">
 
+        </ul>
     </div>
   <div data-role="footer"  data-theme="a" data-form="ui-page-theme-a" class="ui-content ui-page-theme-a">
     <h1>&copy; 2016 My Places</h1>
