@@ -208,7 +208,7 @@ var types = {
       ];
     },
     show:function(){
-        this.mPage.html( '<h3>Select Type:</h3>'+this.mTypes.get() );
+        this.mPage.html( '<h1>Select Type</h1><ul class="ui-listview" data-role="listview">'+this.mTypes.get()+'</ul>' );
     }
 };
 
@@ -266,7 +266,7 @@ function Area( id, title, options ){
     this.mOptions = options;
 
     this.get = function(){
-        return '<li><a href="#" class="areas" data-id="'+this.mID+'" data-type="Neighborhood">'+this.mTitle+'</a></li>';
+        return '<li><a href="#" class="areas ui-btn ui-btn-icon-right ui-icon-carat-r" data-id="'+this.mID+'" data-type="Neighborhood">'+this.mTitle+'</a></li>';
     }
 }
 
@@ -306,9 +306,7 @@ $( function(){
 
 </script>
 <style>
-.ui-content{
-    padding:0px;
-}
+
 IMG{
     width:100%;
 }
@@ -321,16 +319,14 @@ IMG{
         <a data-form="ui-icon" title=" Navigation " class="ui-btn-right ui-btn-corner-all ui-btn ui-icon-grid ui-btn-icon-notext ui-shadow" data-role="button" role="button" href="#menu"> Navigation </a>
     </div>
     <div data-role="panel" id="menu">
+        <h1>Menu</h1>
         <ul data-role="listview">
             <li><a href="#" data-rel="close" data-type="cities">Cities</a></li>
             <li><a href="#" data-rel="close" data-type="neighborhoods">Neighborhoods</a></li>
             <li><a href="#" data-rel="close" data-type="boroughs">Boroughs</a></li>
         </ul>
     </div>
-    <div data-role="main" class="ui-content">
-        <ul data-role="listview" id="places">
-
-        </ul>
+    <div data-role="main" class="ui-content" id="places">
     </div>
   <div data-role="footer"  data-theme="a" data-form="ui-page-theme-a" class="ui-content ui-page-theme-a">
     <h1>&copy; 2016 My Places</h1>
