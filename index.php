@@ -306,7 +306,6 @@ $( function(){
 
 </script>
 <style>
-
 IMG{
     width:100%;
 }
