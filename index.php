@@ -32,11 +32,13 @@ var menuController={
 
             switch( $( this).data( 'type' ) ){
                 case 'cities':
+                    cities.init();
                     break;
                 case 'neighborhoods':
                     areas.init();
                     break;
                 case 'boroughs':
+                    boroughs.init();
                     break;
                 default:
                     console.log( 'the option, '+type+' is not on the list' );
@@ -46,7 +48,39 @@ var menuController={
     }
 };
 
+var cities = {
+  init:function(){
+      this.mPage = $( '#places' );
+      this.mCities = new Cities();
+      this.events();
+      this.loadCities();
+  },
+    events:function(){
 
+    },
+    ui:{
+
+    },
+    loadCities:function(){
+        var cities = this.getCities();
+
+        for( var i in cities ){
+            this.mCities.add( cities[ i ]);
+        }
+        this.show();
+    },
+    show:function(){
+        this.mPage.html( '<h1>Cities</h1><ul class="ui-listview" data-role="listview">'+ this.mCities.get()+ '</ul>' );
+    },
+    getCities:function(){
+        return [
+            new City( 1, 'Brooklyn', [] ),
+            new City( 2, 'Manhattan', [] ),
+            new City( 3, 'Queens', [] ),
+            new City( 4, 'Bronx', [] )
+        ]
+    }
+};
 var areas = {
     init:function(){
       this.mPage = $( '#places' );
@@ -102,7 +136,8 @@ var places = {
     setImageSize:function(){
         $width = $('#page').width();
         $('#page img').css({
-            'max-width' : $width , 'height' : 'auto'
+            'max-width' : $width,
+            'height' : 'auto'
         });
 
     },
@@ -211,6 +246,36 @@ var types = {
         this.mPage.html( '<h1>Select Type</h1><ul class="ui-listview" data-role="listview">'+this.mTypes.get()+'</ul>' );
     }
 };
+
+function Cities(){
+    this.mTitle = 'Cities';
+    this.mCities = [];
+    this.mLength = 0;
+    this.add = function( City ){
+        this.mCities[ this.mLength ] = City;
+        this.mLength++;
+    }
+
+    this.get = function(){
+
+        var values = '';
+
+        for( var i in this.mCities ){
+            values += this.mCities[ i].get();
+        }
+        return values;
+    }
+}
+
+function City( id, title, options ){
+    this.mID = id;
+    this.mTitle = title;
+    this.mOptions = options;
+
+    this.get = function(){
+        return '<li><a href="#" class="areas ui-btn ui-btn-icon-right ui-icon-carat-r" data-id="'+this.mID+'" data-type="Neighborhood">'+this.mTitle+'</a></li>';
+    }
+}
 
 function Types(){
     this.mTypes = [];
